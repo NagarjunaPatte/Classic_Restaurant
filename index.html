@@ -1,0 +1,604 @@
+<!DOCTYPE html>
+<html lang="te">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Classic Fast Food Center - Menu</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+Telugu:wght@400;700&family=Poppins:wght@600;700&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Noto Sans Telugu', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 40px 20px;
+            min-height: 100vh;
+        }
+        
+        .menu-container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+            padding: 40px 30px;
+            text-align: center;
+            position: relative;
+        }
+        
+        .restaurant-name {
+            font-family: 'Poppins', sans-serif;
+            font-size: 42px;
+            font-weight: 700;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+        }
+        
+        .tagline {
+            font-size: 18px;
+            opacity: 0.95;
+            font-weight: 400;
+            margin-bottom: 20px;
+        }
+        
+        .offers-btn {
+            background: #FFD700;
+            color: #d32f2f;
+            border: none;
+            padding: 15px 40px;
+            font-size: 20px;
+            font-weight: 700;
+            border-radius: 50px;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+            transition: all 0.3s ease;
+            animation: pulse 2s infinite;
+            margin-top: 10px;
+        }
+        
+        .offers-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.4);
+        }
+        
+        .review-btn {
+            background: #4285f4;
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            font-size: 20px;
+            font-weight: 700;
+            border-radius: 50px;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+            transition: all 0.3s ease;
+            margin-top: 10px;
+            margin-left: 15px;
+            text-decoration: none;
+            display: inline-block;
+        }
+        
+        .review-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.4);
+            background: #357ae8;
+        }
+        
+        @keyframes pulse {
+            0%, 100% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.05);
+            }
+        }
+        
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.7);
+            animation: fadeIn 0.3s;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        .modal-content {
+            background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%);
+            margin: 15% auto;
+            padding: 40px;
+            border-radius: 20px;
+            width: 90%;
+            max-width: 500px;
+            text-align: center;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.5);
+            animation: slideDown 0.4s;
+            position: relative;
+        }
+        
+        @keyframes slideDown {
+            from {
+                transform: translateY(-100px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+        
+        .close {
+            position: absolute;
+            right: 20px;
+            top: 15px;
+            color: #d32f2f;
+            font-size: 35px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: color 0.3s;
+        }
+        
+        .close:hover {
+            color: #000;
+        }
+        
+        .offer-title {
+            font-size: 36px;
+            font-weight: 700;
+            color: #d32f2f;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+        }
+        
+        .offer-details {
+            font-size: 24px;
+            color: #333;
+            font-weight: 600;
+            line-height: 1.6;
+        }
+        
+        .offer-highlight {
+            font-size: 48px;
+            font-weight: 700;
+            color: #d32f2f;
+            margin: 20px 0;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+        }
+        
+        .menu-content {
+            padding: 40px 30px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(450px, 1fr));
+            gap: 40px;
+        }
+        
+        .category {
+            break-inside: avoid;
+        }
+        
+        .category-title {
+            font-size: 28px;
+            font-weight: 700;
+            color: #f5576c;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 3px solid #f093fb;
+            display: inline-block;
+        }
+        
+        .menu-items {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        
+        .menu-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px 0;
+            border-bottom: 1px dotted #ddd;
+        }
+        
+        .item-name {
+            font-size: 18px;
+            color: #333;
+            flex: 1;
+        }
+        
+        .item-price {
+            font-size: 18px;
+            font-weight: 700;
+            color: #f5576c;
+            margin-left: 20px;
+        }
+        
+        .price-symbol {
+            font-family: Arial, sans-serif;
+        }
+        
+        @media print {
+            body {
+                background: white;
+                padding: 0;
+            }
+            
+            .menu-container {
+                box-shadow: none;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .menu-content {
+                grid-template-columns: 1fr;
+            }
+            
+            .restaurant-name {
+                font-size: 32px;
+            }
+            
+            .category-title {
+                font-size: 24px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="menu-container">
+        <div class="header">
+            <h1 class="restaurant-name">Classic Fast Food Center</h1>
+            <p class="tagline">Indian • Arabian • Chinese</p>
+            <button class="offers-btn" onclick="document.getElementById('offersModal').style.display='block'">
+                🎉 SPECIAL OFFERS 🎉
+            </button>
+            <a href="https://maps.app.goo.gl/nD5Zc4U7mQMRKQcU7" target="_blank" class="review-btn">
+                ⭐ REVIEW US ⭐
+            </a>
+        </div>
+        
+        <!-- Offers Modal -->
+        <div id="offersModal" class="modal" onclick="if(event.target==this) this.style.display='none'">
+            <div class="modal-content">
+                <span class="close" onclick="document.getElementById('offersModal').style.display='none'">&times;</span>
+                <h2 class="offer-title">🎊 Special Offer! 🎊</h2>
+                <div class="offer-highlight">FLAT 10% OFF</div>
+                <p class="offer-details">On bills above ₹500</p>
+            </div>
+        </div>
+        
+        <div class="menu-content">
+            <!-- Veg Starters -->
+            <div class="category">
+                <h2 class="category-title">వెజ్ స్టార్టర్స్</h2>
+                <div class="menu-items">
+                    <div class="menu-item">
+                        <span class="item-name">గోబీ 65</span>
+                        <span class="item-price"><span class="price-symbol">₹</span>120</span>
+                    </div>
+                    <div class="menu-item">
+                        <span class="item-name">గోబీ మంచురియా</span>
+                        <span class="item-price"><span class="price-symbol">₹</span>120</span>
+                    </div>
+                    <div class="menu-item">
+                        <span class="item-name">చిల్లి గోబీ</span>
+                        <span class="item-price"><span class="price-symbol">₹</span>150</span>
+                    </div>
+                    <div class="menu-item">
+                        <span class="item-name">పన్నీర్ చిల్లి</span>
+                        <span class="item-price"><span class="price-symbol">₹</span>180</span>
+                    </div>
+                    <div class="menu-item">
+                        <span class="item-name">పన్నీర్ 65</span>
+                        <span class="item-price"><span class="price-symbol">₹</span>180</span>
+                    </div>
+                    <div class="menu-item">
+                        <span class="item-name">కాజూ ఫ్రై</span>
+                        <span class="item-price"><span class="price-symbol">₹</span>180</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Non-Veg Starters -->
+            <div class="category">
+                <h2 class="category-title">నాన్ వెజ్ స్టార్టర్స్</h2>
+                <div class="menu-items">
+                    <div class="menu-item">
+                        <span class="item-name">ఎగ్ 65</span>
+                        <span class="item-price"><span class="price-symbol">₹</span>100</span>
+                    </div>
+                    <div class="menu-item">
+                        <span class="item-name">ఎగ్ చిల్లి</span>
+                        <span class="item-price"><span class="price-symbol">₹</span>100</span>
+                    </div>
+                    <div class="menu-item">
+                        <span class="item-name">ఎగ్ మంచురియా</span>
+                        <span class="item-price"><span class="price-symbol">₹</span>120</span>
+                    </div>
+                    <div class="menu-item">
+                        <span class="item-name">చికెన్ పకోడా</span>
+                        <span class="item-price"><span class="price-symbol">₹</span>60</span>
+                    </div>
+                    <div class="menu-item">
+                        <span class="item-name">పెప్పర్ చికెన్</span>
+                        <span class="item-price"><span class="price-symbol">₹</span>199</span>
+                    </div>
+                    <div class="menu-item">
+                        <span class="item-name">చిల్లి చికెన్</span>
+                        <span class="item-price"><span class="price-symbol">₹</span>199</span>
+                    </div>
+                    <div class="menu-item">
+                        <span class="item-name">చికెన్ మంచురియా</span>
+                        <span class="item-price"><span class="price-symbol">₹</span>199</span>
+                    </div>
+                    <div class="menu-item">
+                        <span class="item-name">చికెన్ మెజిస్టిక్</span>
+                        <span class="item-price"><span class="price-symbol">₹</span>199</span>
+                    </div>
+                    <div class="menu-item">
+                        <span class="item-name">చికెన్ 65</span>
+                        <span class="item-price"><span class="price-symbol">₹</span>199</span>
+                    </div>
+                    <div class="menu-item">
+                        <span class="item-name">చికెన్ 555</span>
+                        <span class="item-price"><span class="price-symbol">₹</span>220</span>
+                    </div>
+                    <div class="menu-item">
+                        <span class="item-name">చికెన్ 85</span>
+                        <span class="item-price"><span class="price-symbol">₹</span>200</span>
+                    </div>
+                    <div class="menu-item">
+                        <span class="item-name">గార్లిక్ చికెన్</span>
+                        <span class="item-price"><span class="price-symbol">₹</span>220</span>
+                    </div>
+                    <div class="menu-item">
+                        <span class="item-name">లెమన్ చికెన్</span>
+                        <span class="item-price"><span class="price-symbol">₹</span>230</span>
+                    </div>
+                    <div class="menu-item">
+                        <span class="item-name">అల్లం చికెన్</span>
+                        <span class="item-price"><span class="price-symbol">₹</span>240</span>
+                    </div>
+                    <div class="menu-item">
+                        <span class="item-name">హమ్ హమ్ చికెన్</span>
+                        <span class="item-price"><span class="price-symbol">₹</span>250</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Veg Items -->
+            <div class="category">
+                <h2 class="category-title">వెజ్ ఐటమ్స్</h2>
+                <div class="menu-items">
+                    <div class="menu-item">
+                        <span class="item-name">ఫ్రైడ్ రైస్</span>
+                        <span class="item-price"><span class="price-symbol">₹</span>60</span>
+                    </div>
+                    <div class="menu-item">
+                        <span class="item-name">కాజు ఫ్రైడ్ రైస్</span>
+                        <span class="item-price"><span class="price-symbol">₹</span>100</span>
+                    </div>
+                    <div class="menu-item">
+                        <span class="item-name">పన్నీర్ ఫ్రైడ్ రైస్</span>
+                        <span class="item-price"><span class="price-symbol">₹</span>120</span>
+                    </div>
+                    <div class="menu-item">
+                        <span class="item-name">గోబీ ఫ్రైడ్ రైస్</span>
+                        <span class="item-price"><span class="price-symbol">₹</span>90</span>
+                    </div>
+                    <div class="menu-item">
+                        <span class="item-name">నూడుల్స్</span>
+                        <span class="item-price"><span class="price-symbol">₹</span>60</span>
+                    </div>
+                    <div class="menu-item">
+                        <span class="item-name">కాజు నూడుల్స్</span>
+                        <span class="item-price"><span class="price-symbol">₹</span>100</span>
+                    </div>
+                    <div class="menu-item">
+                        <span class="item-name">పన్నీర్ నూడుల్స్</span>
+                        <span class="item-price"><span class="price-symbol">₹</span>120</span>
+                    </div>
+                    <div class="menu-item">
+                        <span class="item-name">గోబీ నూడుల్స్</span>
+                        <span class="item-price"><span class="price-symbol">₹</span>90</span>
+                    </div>
+                    <div class="menu-item">
+                        <span class="item-name">మంచురియా</span>
+                        <span class="item-price"><span class="price-symbol">₹</span>70</span>
+                    </div>
+                    <div class="menu-item">
+                        <span class="item-name">మంచురియా రైస్</span>
+                        <span class="item-price"><span class="price-symbol">₹</span>90</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Non-Veg Items -->
+            <div class="category">
+                <h2 class="category-title">నాన్ వెజ్ ఐటమ్స్</h2>
+                <div class="menu-items">
+                    <div class="menu-item">
+                        <span class="item-name">ఎగ్ ఫ్రైడ్ రైస్</span>
+                        <span class="item-price"><span class="price-symbol">₹</span>70</span>
+                    </div>
+                    <div class="menu-item">
+                        <span class="item-name">చికెన్ ఫ్రైడ్ రైస్</span>
+                        <span class="item-price"><span class="price-symbol">₹</span>90</span>
+                    </div>
+                    <div class="menu-item">
+                        <span class="item-name">ఎగ్ గోబీ ఫ్రైడ్ రైస్</span>
+                        <span class="item-price"><span class="price-symbol">₹</span>90</span>
+                    </div>
+                    <div class="menu-item">
+                        <span class="item-name">ఎగ్ నూడుల్స్</span>
+                        <span class="item-price"><span class="price-symbol">₹</span>70</span>
+                    </div>
+                    <div class="menu-item">
+                        <span class="item-name">చికెన్ నూడుల్స్</span>
+                        <span class="item-price"><span class="price-symbol">₹</span>90</span>
+                    </div>
+                    <div class="menu-item">
+                        <span class="item-name">ఎగ్ మంచురియా</span>
+                        <span class="item-price"><span class="price-symbol">₹</span>80</span>
+                    </div>
+                    <div class="menu-item">
+                        <span class="item-name">లెగ్ పీస్ (ఆయిల్ రోస్ట్)</span>
+                        <span class="item-price"><span class="price-symbol">₹</span>70</span>
+                    </div>
+                    <div class="menu-item">
+                        <span class="item-name">ఆమ్లెట్</span>
+                        <span class="item-price"><span class="price-symbol">₹</span>40</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Pulka -->
+            <div class="category">
+                <h2 class="category-title">పుల్కా</h2>
+                <div class="menu-items">
+                    <div class="menu-item">
+                        <span class="item-name">పుల్కా (1 పీస్)</span>
+                        <span class="item-price"><span class="price-symbol">₹</span>8</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Non-Veg Curries -->
+            <div class="category">
+                <h2 class="category-title">నాన్ వెజ్ కర్రీస్</h2>
+                <div class="menu-items">
+                    <div class="menu-item">
+                        <span class="item-name">ఎగ్ టమాటో</span>
+                        <span class="item-price"><span class="price-symbol">₹</span>120</span>
+                    </div>
+                    <div class="menu-item">
+                        <span class="item-name">ఎగ్ బుర్జీ</span>
+                        <span class="item-price"><span class="price-symbol">₹</span>99</span>
+                    </div>
+                    <div class="menu-item">
+                        <span class="item-name">ఎగ్ కీమా</span>
+                        <span class="item-price"><span class="price-symbol">₹</span>100</span>
+                    </div>
+                    <div class="menu-item">
+                        <span class="item-name">ఎగ్ కర్రీ</span>
+                        <span class="item-price"><span class="price-symbol">₹</span>99</span>
+                    </div>
+                    <div class="menu-item">
+                        <span class="item-name">చికెన్ కర్రీ</span>
+                        <span class="item-price"><span class="price-symbol">₹</span>160</span>
+                    </div>
+                    <div class="menu-item">
+                        <span class="item-name">కాజూ చికెన్ కర్రీ</span>
+                        <span class="item-price"><span class="price-symbol">₹</span>200</span>
+                    </div>
+                    <div class="menu-item">
+                        <span class="item-name">బట్టర్ చికెన్</span>
+                        <span class="item-price"><span class="price-symbol">₹</span>200</span>
+                    </div>
+                    <div class="menu-item">
+                        <span class="item-name">కడై చికెన్</span>
+                        <span class="item-price"><span class="price-symbol">₹</span>140</span>
+                    </div>
+                    <div class="menu-item">
+                        <span class="item-name">హైదరాబాద్ స్పెషల్ చికెన్ కర్రీ</span>
+                        <span class="item-price"><span class="price-symbol">₹</span>199</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Veg Curries -->
+            <div class="category">
+                <h2 class="category-title">వెజ్ కర్రీస్</h2>
+                <div class="menu-items">
+                    <div class="menu-item">
+                        <span class="item-name">కాజు కర్రీ</span>
+                        <span class="item-price"><span class="price-symbol">₹</span>150</span>
+                    </div>
+                    <div class="menu-item">
+                        <span class="item-name">పన్నీర్ కర్రీ</span>
+                        <span class="item-price"><span class="price-symbol">₹</span>140</span>
+                    </div>
+                    <div class="menu-item">
+                        <span class="item-name">పన్నీర్ మసాలా</span>
+                        <span class="item-price"><span class="price-symbol">₹</span>160</span>
+                    </div>
+                    <div class="menu-item">
+                        <span class="item-name">కాజు పన్నీర్</span>
+                        <span class="item-price"><span class="price-symbol">₹</span>150</span>
+                    </div>
+                    <div class="menu-item">
+                        <span class="item-name">మేతి చమన్</span>
+                        <span class="item-price"><span class="price-symbol">₹</span>150</span>
+                    </div>
+                    <div class="menu-item">
+                        <span class="item-name">కడై పన్నీర్</span>
+                        <span class="item-price"><span class="price-symbol">₹</span>150</span>
+                    </div>
+                    <div class="menu-item">
+                        <span class="item-name">పాలక్ కర్రీ</span>
+                        <span class="item-price"><span class="price-symbol">₹</span>100</span>
+                    </div>
+                    <div class="menu-item">
+                        <span class="item-name">పాలక్ పన్నీర్</span>
+                        <span class="item-price"><span class="price-symbol">₹</span>150</span>
+                    </div>
+                    <div class="menu-item">
+                        <span class="item-name">టమోటో కర్రీ</span>
+                        <span class="item-price"><span class="price-symbol">₹</span>99</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Kabab -->
+            <div class="category">
+                <h2 class="category-title">కబాబ్</h2>
+                <div class="menu-items">
+                    <div class="menu-item">
+                        <span class="item-name">తంగిడి కబాబ్</span>
+                        <span class="item-price"><span class="price-symbol">₹</span>100</span>
+                    </div>
+                    <div class="menu-item">
+                        <span class="item-name">టిక్కా కబాబ్</span>
+                        <span class="item-price"><span class="price-symbol">₹</span>100</span>
+                    </div>
+                    <div class="menu-item">
+                        <span class="item-name">జాయింట్ లెగ్ పీస్</span>
+                        <span class="item-price"><span class="price-symbol">₹</span>140</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Cool Drinks -->
+            <div class="category">
+                <h2 class="category-title">కూల్ డ్రింక్స్</h2>
+                <div class="menu-items">
+                </div>
+            </div>
+            
+            <!-- Ice Cream -->
+            <div class="category">
+                <h2 class="category-title">ఐస్ క్రీమ్</h2>
+                <div class="menu-items">
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
